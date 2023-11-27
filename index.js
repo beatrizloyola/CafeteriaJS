@@ -1,0 +1,181 @@
+// Fazendo os requerimentos dos pacotes necessários
+const express = require("express");
+const app = express();
+const connection = require("./db/database");
+const Produto = require("./models/produto");
+const Livro = require("./models/livro")
+const Usuario = require('./models/usuario');
+
+// Conectando com o banco de dados MySQL
+connection
+    .authenticate()
+    .then(() => {
+        console.log("Conexão realizada");
+    })
+    .catch((msgErro) => {
+        console.log(msgErro);
+    });
+
+// Setando o EJS
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
+
+// Incializando a aplicação
+app.listen(8080, () => {
+    console.log("App rodando na porta 8080");
+});
+
+// Rota padrão (página inicial)
+app.get("/", (rec, res) => {
+    res.render("index");
+});
+
+// Rota cardápio
+app.get("/cardapio", async (rec, res) => {
+    const produtos = await Produto.findAll();
+    res.render("cardapio", {
+        produtos : produtos
+    });
+})
+
+// Rota biblioteca
+app.get("/biblioteca", async (rec, res) => {
+    const livros = await Livro.findAll();
+    res.render("biblioteca", {
+        livros : livros
+    })
+})
+
+// Rota Login dos Funcionários
+app.get("/login", (rec, res) => {
+    res.render("entrar")
+})
+
+// Processamento do login dos funcionários
+app.post('/processar', async (req, res) => {
+    const { usuario, senha } = req.body;
+    try {
+        const usuarioEncontrado = await Usuario.findOne({ where: { usuario: usuario } });
+
+        if (usuarioEncontrado && usuarioEncontrado.senha === senha) {
+            res.render('gerenciar');
+        } else {
+            res.redirect('/login');
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send(`Erro ao processar o formulário: ${error.message}`);
+    }
+});
+
+// Cadastrar produto
+app.get('/cadastrar', (req, res) => {
+    res.render('cadastrarProd');
+});
+
+app.post('/cadastrarProd', async (req, res) => {
+    const { nome, preco, id } = req.body;
+    try {
+        const novoProduto = await Produto.create({
+            id: id,
+            nome: nome,
+            preco: preco,
+        });
+        console.log('Produto cadastrado:', novoProduto);
+        res.redirect('/');
+    } catch (error) {
+        console.error('Erro ao cadastrar produto:', error);
+        res.status(500).send('Erro ao cadastrar produto.');
+    }
+});
+
+// Deletar produto
+// Funciona perfeitinho, mas eu não queria que o querido tivesse que digitar no link o id do produto toda vez
+app.get('/deletarProd/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const produto = await Produto.findByPk(id);
+        if (!produto) {
+            return res.status(404).send('Produto não encontrado');
+        }
+        res.render('deletarProd', { produto });
+    } catch (error) {
+        console.error('Erro ao carregar página de exclusão:', error);
+        res.status(500).send('Erro ao carregar página de exclusão.');
+    }
+});
+
+app.post('/deletarProd/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const produto = await Produto.findByPk(id);
+        if (!produto) {
+            return res.status(404).send('Produto não encontrado');
+        }
+        await produto.destroy();
+        console.log('Produto excluído:', produto);
+        res.redirect('/');
+    } catch (error) {
+        console.error('Erro ao excluir produto:', error);
+        res.status(500).send('Erro ao excluir produto.');
+    }
+});
+
+// Editar produto
+// Funciona perfeitinho, mas eu não queria que o querido tivesse que digitar no link o id do produto toda vez
+app.get('/editarProd/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const produto = await Produto.findByPk(id);
+        if (!produto) {
+            return res.status(404).send('Produto não encontrado');
+        }
+        res.render('editarProd', { produto });
+    } catch (error) {
+        console.error('Erro ao carregar página de edição:', error);
+        res.status(500).send('Erro ao carregar página de edição.');
+    }
+});
+
+app.post('/editarProd/:id', async (req, res) => {
+    const { id } = req.params;
+    const { nome, preco } = req.body;
+    try {
+        const produto = await Produto.findByPk(id);
+        if (!produto) {
+            return res.status(404).send('Produto não encontrado');
+        }
+        produto.nome = nome;
+        produto.preco = preco;
+        await produto.save();
+        console.log('Produto editado:', produto);
+        res.redirect('/');
+    } catch (error) {
+        console.error('Erro ao editar produto:', error);
+        res.status(500).send('Erro ao editar produto.');
+    }
+});
+
+// Fazer doação
+app.get('/doar', (req, res) => {
+    res.render('doacao');
+});
+
+app.post('/doarLivro', async (req, res) => {
+    const {titulo, autor, id} = req.body;
+    try {
+        const novaDoacao = await Livro.create({
+            id: id,
+            titulo: titulo,
+            autor: autor,
+        });
+        console.log('Livro cadastrado:', novaDoacao);
+        res.redirect('/');
+    } catch (error) {
+        console.error('Erro ao cadastrar a doação:', error);
+        res.status(500).send('Erro ao cadastrar doação.');
+    }
+});
+
