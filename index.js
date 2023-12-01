@@ -92,23 +92,12 @@ app.post('/cadastrarProd', async (req, res) => {
 
 // Deletar produto
 // Funciona perfeitinho, mas eu não queria que o querido tivesse que digitar no link o id do produto toda vez
-app.get('/deletarProd/:id', async (req, res) => {
-    const { id } = req.params;
-
-    try {
-        const produto = await Produto.findByPk(id);
-        if (!produto) {
-            return res.status(404).send('Produto não encontrado');
-        }
-        res.render('deletarProd', { produto });
-    } catch (error) {
-        console.error('Erro ao carregar página de exclusão:', error);
-        res.status(500).send('Erro ao carregar página de exclusão.');
-    }
+app.get('/deletar', async (req, res) => {
+    res.render('deletarProd', { produto });
 });
 
-app.post('/deletarProd/:id', async (req, res) => {
-    const { id } = req.params;
+app.post('/deletarProd', async (req, res) => {
+    const { id } = req.body;
     try {
         const produto = await Produto.findByPk(id);
         if (!produto) {
@@ -125,23 +114,12 @@ app.post('/deletarProd/:id', async (req, res) => {
 
 // Editar produto
 // Funciona perfeitinho, mas eu não queria que o querido tivesse que digitar no link o id do produto toda vez
-app.get('/editarProd/:id', async (req, res) => {
-    const { id } = req.params;
-    try {
-        const produto = await Produto.findByPk(id);
-        if (!produto) {
-            return res.status(404).send('Produto não encontrado');
-        }
-        res.render('editarProd', { produto });
-    } catch (error) {
-        console.error('Erro ao carregar página de edição:', error);
-        res.status(500).send('Erro ao carregar página de edição.');
-    }
+app.get('/editar', async (req, res) => {
+    res.render('editarProd', { produto });  
 });
 
-app.post('/editarProd/:id', async (req, res) => {
-    const { id } = req.params;
-    const { nome, preco } = req.body;
+app.post('/editarProd', async (req, res) => {
+    const { nome, preco, id } = req.body;
     try {
         const produto = await Produto.findByPk(id);
         if (!produto) {
