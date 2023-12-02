@@ -1,4 +1,4 @@
-#entrar, #gerenciar{
+#entrar, #gerenciar, .cadastrarProd{
     text-align: center;
     color: white;
     background: rgb(1,0,11);
@@ -12,7 +12,7 @@
     height: 150px;
 }
 
-#formLogin input[type="text"], #formLogin input[type="password"] {
+#formLogin input[type="text"], #formLogin input[type="password"], .cadastrarProd input[type="text"]{
     border-radius: 20px;
     padding: 3px;
     background-color: white;
@@ -25,7 +25,7 @@
     font-size: 13px;
 }
 
-#botaoEnviar, .opcoesGerenciar button{
+#botaoEnviar, .opcoesGerenciar button, .cadastrarProd input[type="submit"], .botaoBranco{
     text-align: center;
     color: black;
     background-color: white;
@@ -57,17 +57,37 @@
     white-space: normal;
 }
 
+.botaoPreto{
+    --bs-btn-color: #fff;
+    --bs-btn-bg: black;
+    --bs-btn-border-color: white;
+    --bs-btn-hover-color: black;
+    --bs-btn-hover-bg: white;
+    --bs-btn-hover-border-color: white;
+    --bs-btn-focus-shadow-rgb: black;
+    border-radius: 10px;
+    margin-top: 30px;
+    width: 50%;
+    white-space: normal;
+}
+
 #paginaInicial img{
     width: auto;
     height: auto;
     max-height: 80%;
 }
 
-#player::-webkit-media-controls-panel{
+audio::-webkit-media-controls-panel{
     background-color: black;
 }
 
 .mesmo-tamanho{
     width: 15%;
     white-space: normal;
+}
+
+.musica{
+    background-color: black;
+    color: white;
+    border: none
 }
