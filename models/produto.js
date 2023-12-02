@@ -9,6 +9,10 @@ const Produto = connection.define('Produto', {
     preco: {
       type: DataTypes.FLOAT,
       allowNull: false
+    },
+    img: {
+      type: DataTypes.STRING,
+      allowNull: false
     }
   }, {
     timestamps: false

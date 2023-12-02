@@ -47,18 +47,10 @@
             <a href="/" class="btn btn-primary botaoPreto" role="button" style="border-color: white; margin-top: 3px">Voltar</a><br>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
     <div>
         <% produtos.forEach(function(prod){ %>
-            <%= prod.nome %> - R$ <%= prod.preco %> <br>
+            <%= prod.nome %> - R$ <%= prod.preco %>
+            <img src="<%= prod.img %>">
         <% }) %>
     </div>
 </body>

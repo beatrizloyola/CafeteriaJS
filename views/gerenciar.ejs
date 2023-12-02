@@ -12,9 +12,27 @@
         </div>
         <div>
             <h2 style="margin-top: 20px;">Opções de Gerenciamento</h2>
-            <a href="/cadastrar" class="btn btn-primary mesmo-tamanho" role="button" id="botaoEnviar">Cadastrar</a><br>
-            <a href="/deletarProd" class="btn btn-primary mesmo-tamanho" role="button" id="botaoEnviar">Deletar</a><br>
-            <a href="/editarProd" class="btn btn-primary mesmo-tamanho" role="button" id="botaoEnviar">Editar</a>
+            <a href="/cadastrar" class="btn btn-primary mesmo-tamanho" role="button" id="botaoEnviar">Cadastrar</a><br><br><br>
+            <table class="table table-dark">
+                <thead>
+                  <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Preço</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Caminho da Imagem</th>
+                    <th scope="col">Ações</th>
+                  </tr>
+                </thead>
+            <tbody>
+            <% produtos.forEach(function(prod){ %>
+                <tr class="align-middle">
+                  <td><%= prod.nome %></td>
+                  <td><%= prod.preco %></td>
+                  <td><%= prod.id %></td>
+                  <td><%= prod.img %></td>
+                  <td><a href="/deletar/<%=prod.id%>">Excluir</a> | <a href="/editar/<%=prod.id%>">Editar</a></td>
+            <% }) %>
+        </tbody>
         </div>
     </body>
 </html>
