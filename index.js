@@ -82,13 +82,14 @@ app.get('/cadastrar', (req, res) => {
 });
 
 app.post('/cadastrarProd', async (req, res) => {
-    const { nome, preco, id, img } = req.body;
+    const { nome, preco, id, img, categoria } = req.body;
     try {
         const novoProduto = await Produto.create({
             id: id,
             nome: nome,
             preco: preco,
             img: img,
+            categoria: categoria,
         });
         console.log('Produto cadastrado:', novoProduto);
         res.redirect('/gerenciar');

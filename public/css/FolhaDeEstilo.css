@@ -1,4 +1,4 @@
-#entrar, #gerenciar, .cadastrarProd{
+#entrar, #gerenciar, .cadastrarProd, #editar, #deletar{
     text-align: center;
     color: white;
     background: rgb(1,0,11);
@@ -12,7 +12,7 @@
     height: 150px;
 }
 
-#formLogin input[type="text"], #formLogin input[type="password"], .cadastrarProd input[type="text"]{
+input[type="password"], input[type="text"]{
     border-radius: 20px;
     padding: 3px;
     background-color: white;

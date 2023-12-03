@@ -11,7 +11,7 @@
     <div class="container" style="text-align: center;">
         <div>
             <img src="./media/Demogorgo Boca Aberta.png" id="demogorgo"><br>
-        <form action="/cadastrarProd" method="post">
+            <form action="/cadastrarProd" method="post">
             <label for="nome">Nome:</label><br>
             <input type="text" name="nome" id="nome"><br>
             <label for="preco">Preço:</label><br>
@@ -20,10 +20,14 @@
             <input type="text" name="id" id="id"><br>
             <label for="id">Caminho da imagem:</label><br>
             <input type="text" name="img" id="img"><br><br>
+            <input type="radio" id="1" name="categoria" value="1" required>
+            <label for="categoria">Comum</label><br>
+            <input type="radio" id="2" name="categoria" value="2" required>
+            <label for="categoria">Temático</label><br>
             <input type="submit" value="Enviar"><br><br>
         </form>
         </div>
-        <a href="/" id="linkInicio">Voltar para a página inicial</a>
+        <a href="/gerenciar" id="linkInicio">Voltar para a página de genrenciamento</a>
     </div>
 </body>
 </html>

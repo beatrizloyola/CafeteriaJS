@@ -22,6 +22,19 @@
         background-position: top;
         background-repeat: no-repeat;
         background-size: cover;
+        color: white;
+    }
+    img{
+        height: 100px;
+        
+        border-radius: 10%;
+    }
+    .cat2{
+        padding-top: 100px;
+        padding-bottom: 40px;
+    }
+    pre{
+        font-family: Gotham;
     }
 </style>
 <body>
@@ -47,11 +60,57 @@
             <a href="/" class="btn btn-primary botaoPreto" role="button" style="border-color: white; margin-top: 3px">Voltar</a><br>
         </div>
     </div>
-    <div>
-        <% produtos.forEach(function(prod){ %>
-            <%= prod.nome %> - R$ <%= prod.preco %>
-            <img src="<%= prod.img %>">
-        <% }) %>
+    <div class="container" style="text-align: center;">
+        <br>
+        <div class="container cat1">
+            <h1>Pratos Tradicionais</h1><br>
+            <% let n = 0 %>
+            <% produtos.forEach(function(prod) { %>
+                    <% if (prod.categoria === "1"){ %>
+                    <% if (n % 4 === 0) { %>
+                        <div class="row">
+                    <% } %>
+                    
+                    <div class="col">
+                        <img src="<%= prod.img %>">
+                        <pre><%= prod.nome %>
+R$ <%= prod.preco %></pre>
+                        <p></p>
+                    </div>
+                    
+                    <% if ((n + 1) % 4 === 0 || (n + 1) === produtos.length) { %>
+                        </div>
+                    <% } %>
+                    
+                    <% n = n + 1 %>
+            <% }}) %>
+        </div>
+        <div class="container cat2">
+            <h1>Pratos Temáticos</h1><br>
+        <% n = 0 %>
+        <% produtos.forEach(function(prod) { %>
+                <% if (prod.categoria === "2"){ %>
+                <% if (n % 4 === 0) { %>
+                    <div class="row">
+                <% } %>
+                
+                <div class="col">
+                    <img src="<%= prod.img %>">
+                    <pre><%= prod.nome %>
+R$ <%= prod.preco %></pre>
+                </div>
+                
+                <% if ((n + 1) % 4 === 0 || (n + 1) === produtos.length) { %>
+                    </div>
+                <% } %>
+                
+                <% n = n + 1 %>
+        <% }}) %>
+        </div>
+
+        
     </div>
+    
+    
 </body>
 </html>
