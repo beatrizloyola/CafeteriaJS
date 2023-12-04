@@ -12,7 +12,8 @@
         </div>
         <div>
             <h2 style="margin-top: 20px;">Opções de Gerenciamento</h2>
-            <a href="/cadastrar" class="btn btn-primary mesmo-tamanho" role="button" id="botaoEnviar">Cadastrar</a>
+            <a href="/cadastrar" class="btn btn-primary mesmo-tamanho" role="button" id="botaoEnviar">Cadastrar Produto</a>
+            <a href="/doar" class="btn btn-primary mesmo-tamanho" role="button" id="botaoEnviar">Cadastrar Livro</a>
             <br><br><br>
             <table class="table table-dark">
                 <thead>
@@ -32,6 +33,28 @@
                   <td><%= prod.id %></td>
                   <td><%= prod.img %></td>
                   <td><a href="/deletar/<%=prod.id%>">Excluir</a> | <a href="/editar/<%=prod.id%>">Editar</a></td>
+            <% }) %>
+            </tbody>
+            </table>
+            <br>
+            <table class="table table-dark">
+                <thead>
+                  <tr>
+                    <th scope="col">Títulp</th>
+                    <th scope="col">Autor</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Caminho da Imagem</th>
+                    <th scope="col">Ações</th>
+                  </tr>
+                </thead>
+            <tbody>
+            <% livros.forEach(function(livro){ %>
+                <tr class="align-middle">
+                  <td><%= livro.titulo %></td>
+                  <td><%= livro.autor %></td>
+                  <td><%= livro.id %></td>
+                  <td><%= livro.img %></td>
+                  <td><a href="/deletarLivro/<%=livro.id%>">Excluir</a> | <a href="/editarLivro/<%=livro.id%>">Editar</a></td>
             <% }) %>
             </tbody>
             </table>

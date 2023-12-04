@@ -54,8 +54,10 @@ app.get("/login", (rec, res) => {
 
 app.get("/gerenciar", async (rec, res) => {
     const produtos = await Produto.findAll();
+    const livros = await Livro.findAll();
     res.render("gerenciar", {
-        produtos : produtos
+        produtos : produtos,
+        livros : livros,
     });
 })
 
@@ -175,24 +177,102 @@ app.post('/deletarProd/:id', async (req, res) => {
         res.status(500).send('Erro ao excluir produto.');
     }
 });
+
 // Fazer doação
 app.get('/doar', (req, res) => {
-    res.render('doacao');
+    res.render('doar');
 });
 
 app.post('/doarLivro', async (req, res) => {
-    const {titulo, autor, id} = req.body;
+    const {titulo, autor, img, id} = req.body;
     try {
         const novaDoacao = await Livro.create({
-            id: id,
+            img : img,
             titulo: titulo,
             autor: autor,
+            id : id,
         });
         console.log('Livro cadastrado:', novaDoacao);
-        res.redirect('/');
+        res.redirect('/gerenciar');
     } catch (error) {
         console.error('Erro ao cadastrar a doação:', error);
         res.status(500).send('Erro ao cadastrar doação.');
     }
 });
 
+app.get("/editarLivro/:id", async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const livro = await Livro.findByPk(id);
+        if (!livro) {
+            return res.status(404).send('Livro não encontrado');
+        }
+        res.render('editarLivro', { livro });
+    } catch (error) {
+        console.error('Erro ao buscar livro para edição:', error);
+        res.status(500).send('Erro ao buscar livro para edição.');
+    }
+});
+
+app.post('/editarLivro2/:id', async (req, res) => {
+    const { id } = req.params;
+    const { titulo, autor, img } = req.body;
+
+    try {
+        const livro = await Livro.findByPk(id);
+        if (!livro) {
+            return res.status(404).send('Livro não encontrado');
+        }
+
+        // Atualizar os campos do produto
+        livro.titulo = titulo;
+        livro.autor = autor;
+        livro.img = img;
+
+        // Salvar as alterações no banco de dados
+        await livro.save();
+
+        console.log('Livro editado:', livro);
+        res.redirect('/gerenciar'); // Redirecionar para a página de gerenciamento
+    } catch (error) {
+        console.error('Erro ao editar livro:', error);
+        res.status(500).send('Erro ao editar livro.');
+    }
+});
+
+// Rota para deletar produto
+app.get("/deletarLivro/:id", async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const livro = await Livro.findByPk(id);
+        if (!livro) {
+            return res.status(404).send('Livro não encontrado');
+        }
+        res.render('deletarLivro', { livro });
+    } catch (error) {
+        console.error('Erro ao buscar livro para exclusão:', error);
+        res.status(500).send('Erro ao buscar livro para exclusão.');
+    }
+});
+
+app.post('/deletarLivro2/:id', async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const livro = await Livro.findByPk(id);
+        if (!livro) {
+            return res.status(404).send('Livro não encontrado');
+        }
+
+        // Excluir o produto do banco de dados
+        await livro.destroy();
+
+        console.log('Livro excluído:', livro);
+        res.redirect('/gerenciar'); // Redirecionar para a página de gerenciamento
+    } catch (error) {
+        console.error('Erro ao excluir livro:', error);
+        res.status(500).send('Erro ao excluir livro.');
+    }
+});

@@ -9,10 +9,13 @@ const Livro = connection.define('Livro', {
     autor: {
       type: DataTypes.STRING,
       allowNull: false
-    }
+    },
+    img: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
   }, {
     timestamps: false,
-    autoIncrement: false,
   });
 
 module.exports = Livro;
